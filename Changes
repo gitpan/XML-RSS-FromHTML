@@ -3,4 +3,7 @@ Revision history for Perl module XML::RSS::FromHTML
 0.01 Mon May 22 16:06:12 2006
     - original version; created by ExtUtils::ModuleMaker 0.46
 
-
+0.02 Wed July 5 17:24:00 2006
+    - passing new() args directly to init()
+    - untainting cache data under -T mode
+    - pod fix in section 'HOW TO USE'

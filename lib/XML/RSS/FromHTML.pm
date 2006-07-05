@@ -8,7 +8,7 @@ use LWP::UserAgent ();
 use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 __PACKAGE__->mk_accessors(qw(
 	name
@@ -38,7 +38,7 @@ sub new {
 	$p->passthru({});
 	$p->updateStatus('update not executed yet');
 	# initialize properties (for sub-classes)
-	$p->init;
+	$p->init(@_);
 	return $p;
 }
 
@@ -151,11 +151,14 @@ sub cache {
 		# read old cache file
 		my $old_data;
 		if(-f $cache_file){
-			open($fh,'<',$cache_file) or confess "failed to open $cache_file - $!";
+			open($fh,'<',$cache_file)
+			or confess "failed to open $cache_file - $!";
 			{
 				local ($/) = undef;
+				my $x = <$fh>;
+				($x) = ($x =~ /(.+)/ms); # untaint
 				my $VAR1;
-				$old_data = eval(<$fh>);
+				$old_data = eval($x);
 			}
 			close($fh);
 		}
@@ -164,7 +167,8 @@ sub cache {
 			my $n = $self->outFileName;
 			$cache_file =~ s|[^/]+(\..+?)$|$n$1|o;
 		}
-		open($fh,'>',$cache_file) or confess "failed to write-open $cache_file - $!";
+		open($fh,'>',$cache_file)
+		or confess "failed to write-open $cache_file - $!";
 		print $fh Data::Dumper::Dumper($list);
 		return (1,$old_data,$len_new,$len_old);
 	}
@@ -574,9 +578,9 @@ And with $self->updateStatus method, you'll be informed with a status message.
 
   use MyModule;
   my $rss = MyModule->new;
-  my $result = $rss->update;
-  if($result){
-    print "successfully updated";
+  my $hasNewItem = $rss->update;
+  if($hasNewItem){
+    print "RSS updated with some new items";
     return 1;
   }else{
     # i.e. "still under check interval time period"
