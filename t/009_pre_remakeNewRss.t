@@ -1,6 +1,7 @@
 use Test::More tests => 14;
 use strict;
 use FindBin;
+use File::Path;
 BEGIN {
 	require "$FindBin::RealBin/Test.pm";
 }
@@ -60,6 +61,6 @@ my $list = [
 	my $path2 = $rss->_getFeedFilePath;
 	$path2 =~ s/Test\.xml$/hogehoge\.xml/;
 	ok(-f $path2);
-	is(bytes::length($new->as_string), -s $path2);
-	unlink $path2;
+	is bytes::length($new->as_string), -s $path2;
+    #unlink $path2;
 }

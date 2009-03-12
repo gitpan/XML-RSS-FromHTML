@@ -15,7 +15,7 @@ my $html = <$fh>;
 my $expect = [
 	{ title => 'to link 01', link => 'http://link/01.html' },
 	{ title => 'to link 02', link => 'http://link/02.html' },
-	{ title => 'to link 03', link => 'http://link/03.html' },
+	{ title => 'リンクその 03', link => 'http://link/03.html' },
 ];
 my $list = $rss->makeItemList($html);
 is_deeply($list,$expect);

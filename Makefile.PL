@@ -4,7 +4,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'XML::RSS::FromHTML',
     VERSION_FROM => 'lib/XML/RSS/FromHTML.pm', # finds \$VERSION
-    AUTHOR       => 'Toshimasa Ishibashi (iandeth99@ybb.ne.jp)',
+    AUTHOR       => 'Toshimasa Ishibashi (bashi@cpan.org)',
     ABSTRACT     => 'simple framework for creating RSS out of HTML',
     PREREQ_PM    => {
         'XML::RSS'       => 0,

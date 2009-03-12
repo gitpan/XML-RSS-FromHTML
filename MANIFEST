@@ -18,5 +18,4 @@ t/011_remakeRss_allold.t
 t/012_remakeRss_combo.t
 t/Test.html
 t/Test.pm
-t/TestRunner.pl
 META.yml

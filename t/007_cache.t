@@ -1,10 +1,14 @@
 use Test::More tests => 10;
 use strict;
 use FindBin;
+use File::Path;
 BEGIN {
 	require "$FindBin::RealBin/Test.pm";
 }
 my $rss = XML::RSS::FromHTML::Test->new();
+my $cachedir = '/tmp/Xml-RSS-FromHTML/cache';
+rmtree $cachedir, 0;
+mkpath $cachedir, 0;
 
 # list made from makeItemList()
 my $list = [
@@ -50,4 +54,8 @@ my $path = $rss->_getCacheFilePath;
 	is_deeply($old_list, $dummy_old);
 	is(-s $path, 338);
 	unlink $path;
+}
+
+END {
+    rmtree $cachedir, 0;
 }

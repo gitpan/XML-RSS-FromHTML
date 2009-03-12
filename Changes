@@ -7,3 +7,6 @@ Revision history for Perl module XML::RSS::FromHTML
     - passing new() args directly to init()
     - untainting cache data under -T mode
     - pod fix in section 'HOW TO USE'
+
+0.03 Thu March 13 01:29:00 2009
+    - fixed test failure, where it couldn't create file to t/ directory. Using /tmp instead.

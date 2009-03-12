@@ -27,16 +27,25 @@ BEGIN {
 	my $fpath = $rss->_getFeedFilePath;
 	my $x = XML::RSS->new;
 	$x->add_item(
-		title => 'hoge',
+		title => 'あいうえ',
 		link  => 'http://hoge',
 	);
 	$x->save($fpath);
 	my $oldrss = $rss->_loadOldRss;
 	is(scalar @{ $oldrss->{items} }, 1);
-	is($oldrss->{items}[0]{title}, 'hoge');
+	is($oldrss->{items}[0]{title}, 'あいうえ');
 	ok(utf8::is_utf8( $oldrss->{items}[0]{title} ));
-	
+}
+{	
 	# with unicode downgrade
+	my $rss = XML::RSS::FromHTML::Test->new();
+	my $fpath = $rss->_getFeedFilePath;
+	my $x = XML::RSS->new;
+	$x->add_item(
+		title => 'hoge',
+		link  => 'http://hoge',
+	);
+	$x->save($fpath);
 	$rss->unicodeDowngrade(1);
 	my $oldrss2 = $rss->_loadOldRss;
 	is(scalar @{ $oldrss2->{items} }, 1);

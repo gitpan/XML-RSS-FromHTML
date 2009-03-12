@@ -8,7 +8,8 @@ use LWP::UserAgent ();
 use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
-our $VERSION = '0.02';
+use File::Basename ();
+our $VERSION = '0.03';
 
 __PACKAGE__->mk_accessors(qw(
 	name
@@ -314,7 +315,8 @@ sub _saveToFile {
 	my $saveFile = $self->_getFeedFilePath();
 	if($self->outFileName){
 		my $n = $self->outFileName;
-		$saveFile =~ s|[^/]+(\..+?)$|$n$1|o;
+        my ($name, $dir, $suffix) = File::Basename::fileparse( $saveFile, qr/\.[^.]*/ );
+        $saveFile = "$dir$n$suffix";
 	}
 	$rss_new->save( $saveFile ) or confess $!;
 	return 1;
@@ -734,7 +736,7 @@ Nothing that I'm aware of, yet.
 
   Toshimasa Ishibashi
   CPAN ID: BASHI
-  iandeth99@ybb.ne.jp
+  bashi@cpan.org
   http://iandeth.dyndns.org/mt/ian/
 
 =head1 COPYRIGHT
