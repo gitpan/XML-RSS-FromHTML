@@ -7,13 +7,14 @@ WriteMakefile(
     AUTHOR       => 'Toshimasa Ishibashi (bashi@cpan.org)',
     ABSTRACT     => 'simple framework for creating RSS out of HTML',
     PREREQ_PM    => {
-        'XML::RSS'       => 0,
+        'XML::RSS'       => 1.43,
+        'XML::Parser'    => 2.34,
         'LWP::UserAgent' => 0,
         'HTTP::Cookies'  => 0,
+        'HTML::Entities' => 1.35,
         'HTTP::Date'     => 0,
         'Test::Simple'   => 0.44,
         'Test::More'     => 0,
         'Class::Accessor::Fast' => 0,
-        'Unicode::RecursiveDowngrade' => 0,
     },
 );

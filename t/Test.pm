@@ -51,7 +51,7 @@ sub defineRSS {
 	my $self = shift;
 	my $rss  = shift;
 	$rss->channel(
-		title => 'blabla rss feed',
+		title => 'ほげほげフィード',
 		description => 'foo bar',
 		link  => 'http://mysite/rss/',
 	);

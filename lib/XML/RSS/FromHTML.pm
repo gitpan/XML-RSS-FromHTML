@@ -9,7 +9,7 @@ use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
 use File::Basename ();
-our $VERSION = '0.031';
+our $VERSION = '0.04';
 
 __PACKAGE__->mk_accessors(qw(
 	name
@@ -292,8 +292,12 @@ sub _loadOldRss {
 	my $r = XML::RSS->new(%{ $self->{passthru} });
 	$r->parsefile($file) if(-f $file);
 	if($self->unicodeDowngrade){
-		require Unicode::RecursiveDowngrade;
-		$r = Unicode::RecursiveDowngrade->new->downgrade($r);
+        eval { require Unicode::RecursiveDowngrade };
+        if( $@ ){
+            warn 'you will need to install Unicode::RecursiveDowngrade module to use $self->unicodeDowngrade option';
+        }else{
+            $r = Unicode::RecursiveDowngrade->new->downgrade($r);
+        }
 	}
 	$self->rssObj($r);
 	return $r;
@@ -621,6 +625,8 @@ Minimum interval period in seconds. If $self->update is called more than once wi
 The maximum number of items the RSS feed contains. If exceeded, older items will be deleted from the feed. Default is 30.
 
 =item * unicodeDowngrade
+
+[depricated since v0.04] pre-requisity module XML::Parser v2.34 no longer creates utf-8 flagged strings, so this feature is not need by japanese and other multi-byte character languages.
 
 Parsing of RSS files with XML::RSS (actually XML::Parser) results in utf-8 flagged strings. Setting this to a true value will take all these utf-8 flags off, which is sometimes helpfull for non-ascii language codes without using the 'encoding' pragma.
 

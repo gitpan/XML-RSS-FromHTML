@@ -35,7 +35,7 @@ my $list = [
 	my $rss = XML::RSS::FromHTML::Test->new();
 	my $new = new XML::RSS;
 	$rss->defineRSS($new);
-	is($new->{channel}{title},'blabla rss feed');
+	is($new->{channel}{title},'ほげほげフィード');  # japanese text
 	is($new->{channel}{description},'foo bar');
 	is($new->{image}{url},'http://mysite/rss/feed.png');
 }

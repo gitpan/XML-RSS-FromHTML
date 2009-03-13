@@ -1,6 +1,8 @@
-use Test::More tests => 9;
+#use Test::More qw/no_plan/;
+use Test::More tests => 11;
 use strict;
 use FindBin;
+use Encode qw/encode decode is_utf8/;
 BEGIN {
 	require "$FindBin::RealBin/Test.pm";
 }
@@ -36,7 +38,9 @@ BEGIN {
 	is($oldrss->{items}[0]{title}, 'hoge');
 	ok(utf8::is_utf8( $oldrss->{items}[0]{title} ));
 }
-{	
+SKIP: {	
+    eval { require Unicode::RecursiveDowngrade };
+    skip "Unicode::RecursiveDowngrade not installed", 3 if $@;
 	# with unicode downgrade
 	my $rss = XML::RSS::FromHTML::Test->new();
 	my $fpath = $rss->_getFeedFilePath;
@@ -52,4 +56,19 @@ BEGIN {
 	is($oldrss2->{items}[0]{title}, 'hoge');
 	ok(! utf8::is_utf8( $oldrss2->{items}[0]{title} ));
 	unlink $fpath;
+}
+# japanese text
+{
+	my $rss = XML::RSS::FromHTML::Test->new();
+	my $fpath = $rss->_getFeedFilePath;
+	my $x = XML::RSS->new;
+	$x->add_item(
+		title => 'あいうえ',
+		link  => 'http://hoge',
+	);
+	$x->save($fpath);
+	my $oldrss = $rss->_loadOldRss;
+	is scalar @{ $oldrss->{items} }, 1;
+    my $title = $oldrss->{items}[0]{title};
+    is $title, 'あいうえ';
 }
