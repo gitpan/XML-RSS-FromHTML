@@ -9,7 +9,7 @@ use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
 use File::Basename ();
-our $VERSION = '0.03';
+our $VERSION = '0.031';
 
 __PACKAGE__->mk_accessors(qw(
 	name

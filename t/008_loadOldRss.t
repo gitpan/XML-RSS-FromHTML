@@ -27,13 +27,13 @@ BEGIN {
 	my $fpath = $rss->_getFeedFilePath;
 	my $x = XML::RSS->new;
 	$x->add_item(
-		title => 'あいうえ',
+		title => 'hoge',
 		link  => 'http://hoge',
 	);
 	$x->save($fpath);
 	my $oldrss = $rss->_loadOldRss;
 	is(scalar @{ $oldrss->{items} }, 1);
-	is($oldrss->{items}[0]{title}, 'あいうえ');
+	is($oldrss->{items}[0]{title}, 'hoge');
 	ok(utf8::is_utf8( $oldrss->{items}[0]{title} ));
 }
 {	
