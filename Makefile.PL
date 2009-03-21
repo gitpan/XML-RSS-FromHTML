@@ -15,6 +15,7 @@ WriteMakefile(
         'HTTP::Date'     => 0,
         'Test::Simple'   => 0.44,
         'Test::More'     => 0,
+        'File::Temp'     => 0,
         'Class::Accessor::Fast' => 0,
     },
 );

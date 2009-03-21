@@ -1,11 +1,12 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         XML-RSS-FromHTML
-version:      0.04
+version:      0.041
 version_from: lib/XML/RSS/FromHTML.pm
 installdirs:  site
 requires:
     Class::Accessor::Fast:         0
+    File::Temp:                    0
     HTML::Entities:                1.35
     HTTP::Cookies:                 0
     HTTP::Date:                    0

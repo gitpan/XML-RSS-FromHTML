@@ -2,7 +2,7 @@ package XML::RSS::FromHTML::Test;
 use base XML::RSS::FromHTML;
 use strict;
 use FindBin;
-use File::Path;
+use File::Temp qw/tempdir/;
 
 __PACKAGE__->mk_accessors(qw(
 	prop01
@@ -12,10 +12,8 @@ __PACKAGE__->mk_accessors(qw(
 sub init {
 	my $self = shift;
 	$self->name('Test');
-    my $cachedir = '/tmp/XML-RSS-FromHTML/cache';
-    my $feeddir = '/tmp/XML::RSS::FromHTML/feed';
-    mkpath $cachedir, 0 if !-d $cachedir;
-    mkpath $feeddir, 0 if !-d $feeddir;
+    my $cachedir = tempdir( CLEANUP=>1 );
+    my $feeddir  = tempdir( CLEANUP=>1 );
 	$self->cacheDir($cachedir);
 	$self->feedDir($feeddir);
 	$self->prop01('foo');
@@ -60,12 +58,6 @@ sub defineRSS {
 		url    => "http://mysite/rss/feed.png",
 	);
 	return 1;
-}
-
-sub DESTROY {
-    my $self = shift;
-    rmtree $self->cacheDir, 0;
-    rmtree $self->feedDir, 0;
 }
 
 1;

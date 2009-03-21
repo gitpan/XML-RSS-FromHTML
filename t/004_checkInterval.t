@@ -8,19 +8,16 @@ BEGIN {
 
 my $rss = XML::RSS::FromHTML::Test->new();
 isa_ok ($rss, 'XML::RSS::FromHTML');
-my $cachedir = '/tmp/XML-RSS-FromHTML/cache';
-rmtree $cachedir, 0;
-mkpath $cachedir, 0;
 
 # sub-class properties
 is($rss->name,'Test');
-is($rss->cacheDir,$cachedir);
+ok -d $rss->cacheDir;
 is($rss->prop01,'foo');
 is($rss->prop02,'bar');
 
 # _getCacheFilePath
 my $path = $rss->_getCacheFilePath;
-is($path,$cachedir.'/Test.cache');
+is $path, $rss->cacheDir . '/Test.cache';
 
 ### checkInterval
 
@@ -44,7 +41,3 @@ sleep(2);
 ok( ($rss->checkInterval)[0] );
 
 unlink $path;
-
-END {
-    rmtree $cachedir, 0;
-}

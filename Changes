@@ -10,3 +10,9 @@ Revision history for Perl module XML::RSS::FromHTML
 
 0.03 Thu March 13 01:29:00 2009
     - fixed test failure, where it couldn't create file to t/ directory. Using /tmp instead.
+
+0.04 Sat March 13 01:54:00 2009
+    - updated pre-requisity module versions, so that it'll work tight in most environments.
+    - pre-requisity XML::Parser no longer results in UTF-8 flagged strings, so i depricated Unicode::RecursiveDowngrade feature here, since we don't need it any more.
+    - pre-requisity HTML::Entities 1.35 no longer escapes multi-byte characters. It's now safe to use it in Japanese and other multibyte characters.
+    - added some tests to ensure it works fine with Japanese text.

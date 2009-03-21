@@ -1,6 +1,5 @@
 package XML::RSS::FromHTML;
 use base Class::Accessor::Fast;
-use 5.6.0;
 use strict;
 use Carp;
 use XML::RSS ();
@@ -9,7 +8,7 @@ use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
 use File::Basename ();
-our $VERSION = '0.04';
+our $VERSION = '0.041';
 
 __PACKAGE__->mk_accessors(qw(
 	name
