@@ -8,7 +8,7 @@ use HTTP::Cookies ();
 use Data::Dumper ();
 use bytes ();
 use File::Basename ();
-our $VERSION = '0.041';
+our $VERSION = '0.05';
 
 __PACKAGE__->mk_accessors(qw(
 	name
@@ -180,6 +180,11 @@ sub remakeRSS {
 	my $self = shift;
 	my ($newlist,$oldlist,$oldrss) = @_;
 	my $rss_new = new XML::RSS(%{ $self->passthru });
+    # if old rss hold no items, which means the file was broken or removed,
+    # then we should reset the old list too, to remake all items again
+    if( scalar @{$oldrss->{items} || []} == 0 ){
+        $oldlist = [];
+    }
 	# find which item's new
 	my (@new,%chk,%chkInOldRss);
 	# making check hash
@@ -289,7 +294,12 @@ sub _loadOldRss {
 	my $self = shift;
 	my $file = $self->_getFeedFilePath();
 	my $r = XML::RSS->new(%{ $self->{passthru} });
-	$r->parsefile($file) if(-f $file);
+    eval {
+        $r->parsefile($file) if(-f $file);
+    };
+    if( $@ || scalar( @{$r->{items} || []} ) < 1 ){
+        $self->updateStatus("old rss file was broken, so ignoring - $@");
+    }
 	if($self->unicodeDowngrade){
         eval { require Unicode::RecursiveDowngrade };
         if( $@ ){

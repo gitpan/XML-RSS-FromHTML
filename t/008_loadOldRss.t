@@ -1,5 +1,5 @@
 #use Test::More qw/no_plan/;
-use Test::More tests => 11;
+use Test::More tests => 13;
 use strict;
 use FindBin;
 use Encode qw/encode decode is_utf8/;
@@ -71,4 +71,17 @@ SKIP: {
 	is scalar @{ $oldrss->{items} }, 1;
     my $title = $oldrss->{items}[0]{title};
     is $title, 'あいうえ';
+}
+# old rss file broken
+{
+	my $rss = XML::RSS::FromHTML::Test->new();
+	my $fpath = $rss->_getFeedFilePath;
+
+    open my $fh, '>', $fpath or die $!;
+    print $fh "<foo>i'm broken rss text </foo>";
+    close $fh;
+
+	my $oldrss = $rss->_loadOldRss;
+	is scalar @{ $oldrss->{items} }, 0;
+    like $rss->updateStatus, qr/old rss file was broken/;
 }
